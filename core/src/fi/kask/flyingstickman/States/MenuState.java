@@ -1,5 +1,6 @@
 package fi.kask.flyingstickman.States;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import fi.kask.flyingstickman.FlyingStickman;
@@ -20,13 +21,16 @@ public class MenuState extends State {
     }
 
     @Override
-    public void handleInput() {
-
+    protected void handleInput() {
+        if(Gdx.input.justTouched()) {
+            _gameStateManager.set(new PlayState(_gameStateManager));
+            dispose();
+        }
     }
 
     @Override
     public void update(float dt) {
-
+        handleInput();
     }
 
     @Override
