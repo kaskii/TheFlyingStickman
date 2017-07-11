@@ -22,17 +22,28 @@ public class Stickman {
     }
 
     public void update(float dt) {
-        _velocity.add(0, GRAVITY, 0);
-        _velocity.scl(dt);
+        if(_position.y > 0) {
+            _velocity.add(0, GRAVITY, 0);
+        }
 
+        _velocity.scl(dt);
         _position.add(0,_velocity.y,0);
 
         // Normalize velocity back so we can use it on next frame
         _velocity.scl(1/dt);
+
+        // Make sure player doesn't fall below the screen
+        if(_position.y < 0) {
+            _position.y = 0;
+        }
     }
 
     public void dispose() {
         _stickman.dispose();
+    }
+
+    public void hopUp() {
+        _velocity.y = 250;
     }
 
     public Vector3 getPosition() {
