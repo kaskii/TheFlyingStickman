@@ -38,4 +38,10 @@ public class MenuState extends State {
 
         sb.end();
     }
+
+    @Override
+    public void dispose() {
+        _backgroundTexture.dispose();
+        _playButtonTexture.dispose();
+    }
 }
