@@ -16,6 +16,8 @@ public class MenuState extends State {
     public MenuState(GameStateManager gsm) {
         super(gsm);
 
+        _camera.setToOrtho(false, FlyingStickman.WIDTH, FlyingStickman.HEIGHT);
+
         _backgroundTexture = new Texture("background.png");
         _playButtonTexture = new Texture("playButton.png");
     }
@@ -24,7 +26,6 @@ public class MenuState extends State {
     protected void handleInput() {
         if(Gdx.input.justTouched()) {
             _gameStateManager.set(new PlayState(_gameStateManager));
-            dispose();
         }
     }
 
@@ -35,6 +36,9 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+
+        sb.setProjectionMatrix(_camera.combined);
+
         sb.begin();
 
         sb.draw(_backgroundTexture, 0, 0, FlyingStickman.WIDTH, FlyingStickman.HEIGHT);

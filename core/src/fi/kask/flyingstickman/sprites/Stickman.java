@@ -1,6 +1,7 @@
 package fi.kask.flyingstickman.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -16,10 +17,13 @@ public class Stickman {
 
     private Texture _stickman;
 
+    private Rectangle _bounds;
+
     public Stickman(int x, int y) {
         _position = new Vector3(x, y,0);
         _velocity = new Vector3(0,0,0);
         _stickman = new Texture("stickman.png");
+        _bounds = new Rectangle(x, y, _stickman.getWidth(), _stickman.getHeight());
     }
 
     public void update(float dt) {
@@ -37,6 +41,9 @@ public class Stickman {
         if(_position.y < 0) {
             _position.y = 0;
         }
+
+        // Update bounds rect
+        _bounds.setPosition(_position.x, _position.y);
     }
 
     public void dispose() {
@@ -45,6 +52,10 @@ public class Stickman {
 
     public void hopUp() {
         _velocity.y = 250;
+    }
+
+    public Rectangle getBounds() {
+        return _bounds;
     }
 
     public Vector3 getPosition() {

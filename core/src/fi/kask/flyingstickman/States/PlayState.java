@@ -27,11 +27,11 @@ public class PlayState extends State {
         _stickman = new Stickman(35, 100);
 
         _backgroundTexture = new Texture("background.png");
-        _camera.setToOrtho(false, FlyingStickman.WIDTH / 2, FlyingStickman.HEIGHT / 2);
+        _camera.setToOrtho(false, FlyingStickman.WIDTH, FlyingStickman.HEIGHT);
 
         _spikePoles = new Array<SpikePole>();
 
-        for(int i = 2; i < SPIKE_COUNT + 2; i++) {
+        for(int i = 2; i <= SPIKE_COUNT + 1; i++) {
             _spikePoles.add(new SpikePole(i * (SPIKE_SPACING + SpikePole.SPIKE_WIDTH)));
         }
     }
@@ -47,12 +47,19 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         _stickman.update(dt);
-        _camera.position.x = _stickman.getPosition().x + 80;
+        _camera.position.x = _stickman.getPosition().x;
 
-        // Repos spike poles left side of the screen
-        for(SpikePole spikePole : _spikePoles) {
+        // Repos spike poles which are left side of the screen
+        for(int i = 0; i < _spikePoles.size; i++) {
+            SpikePole spikePole = _spikePoles.get(i);
+
             if(_camera.position.x - (_camera.viewportWidth / 2) > spikePole.getTopSpikePolePosition().x + spikePole.getTopSpikePoleTexture().getWidth()) {
-                spikePole.reposition(spikePole.getBottomSpikePolePosition().x + ((SpikePole.SPIKE_WIDTH + SPIKE_SPACING) * SPIKE_COUNT));
+                spikePole.reposition(spikePole.getTopSpikePolePosition().x + ((SpikePole.SPIKE_WIDTH + SPIKE_SPACING) * SPIKE_COUNT));
+            }
+
+            // Check for collision
+            if(spikePole.collides(_stickman.getBounds())) {
+                _gameStateManager.set(new MenuState(_gameStateManager));
             }
         }
 
@@ -65,7 +72,7 @@ public class PlayState extends State {
         sb.begin();
 
         sb.draw(_backgroundTexture, _camera.position.x - _camera.viewportWidth / 2, 0);
-        sb.draw(_stickman.getStickman(), _stickman.getPosition().x, _stickman.getPosition().y, 30, 15);
+        sb.draw(_stickman.getStickman(), _stickman.getPosition().x, _stickman.getPosition().y);
 
         for(SpikePole spikePole : _spikePoles) {
             sb.draw(spikePole.getTopSpikePoleTexture(), spikePole.getTopSpikePolePosition().x, spikePole.getTopSpikePolePosition().y);
