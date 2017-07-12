@@ -15,6 +15,7 @@ public class PlayState extends State {
 
     private static final int SPIKE_SPACING = 125;
     private static final int SPIKE_COUNT = 4;
+    private static final int STICKMAN_OFFSET_X = 100;
 
     private Stickman _stickman;
     private Texture _backgroundTexture;
@@ -24,7 +25,7 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
 
-        _stickman = new Stickman(35, 100);
+        _stickman = new Stickman(-STICKMAN_OFFSET_X, 100);
 
         _backgroundTexture = new Texture("background.png");
         _camera.setToOrtho(false, FlyingStickman.WIDTH, FlyingStickman.HEIGHT);
@@ -47,7 +48,7 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         _stickman.update(dt);
-        _camera.position.x = _stickman.getPosition().x;
+        _camera.position.x = _stickman.getPosition().x + STICKMAN_OFFSET_X;
 
         // Repos spike poles which are left side of the screen
         for(int i = 0; i < _spikePoles.size; i++) {
