@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 public class Stickman {
 
     private static final int GRAVITY = -15;
+    private static final int MOVEMENT = 100;
 
     private Vector3 _position;
     private Vector3 _velocity;
@@ -27,7 +28,7 @@ public class Stickman {
         }
 
         _velocity.scl(dt);
-        _position.add(0,_velocity.y,0);
+        _position.add(MOVEMENT * dt,_velocity.y,0);
 
         // Normalize velocity back so we can use it on next frame
         _velocity.scl(1/dt);

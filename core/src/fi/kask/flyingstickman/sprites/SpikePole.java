@@ -10,6 +10,8 @@ import java.util.Random;
  */
 public class SpikePole {
 
+    public static final int SPIKE_WIDTH = 32;
+
     private static final int FLUCTUATION = 130;
     private static final int SPIKE_GAP = 100;
     private static final int LOWEST_OPENING = 120;
@@ -29,6 +31,11 @@ public class SpikePole {
 
         _topSpikePolePosition = new Vector2(x, _random.nextInt(FLUCTUATION) + SPIKE_GAP + LOWEST_OPENING);
         _bottomSpikePolePosition = new Vector2(x, _topSpikePolePosition.y - SPIKE_GAP - _bottomSpikePoleTexture.getHeight());
+    }
+
+    public void reposition(float x) {
+        _topSpikePolePosition.set(x, _random.nextInt(FLUCTUATION) + SPIKE_GAP + LOWEST_OPENING);
+        _bottomSpikePolePosition.set(x, _topSpikePolePosition.y - SPIKE_GAP - _bottomSpikePoleTexture.getHeight());
     }
 
     public void dispose() {
